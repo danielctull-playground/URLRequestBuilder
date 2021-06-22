@@ -6,7 +6,7 @@ import XCTest
 final class HeaderTests: XCTestCase {
 
     func testSet() throws {
-        var request = try URLRequest(url: XCTUnwrap(URL(string: "https://danieltull.co.uk")))
+        var request = try URLRequest.test()
         request.setHeader(Header("key", "value"))
         XCTAssertEqual(request.value(forHTTPHeaderField: "key"), "value")
     }
