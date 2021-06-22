@@ -15,8 +15,8 @@ extension Header {
 
 extension URLRequest {
 
-    public mutating func addHeader(_ header: Header) {
-        addValue(header.value.rawValue, forHTTPHeaderField: header.field.rawValue)
+    public mutating func setHeader(_ header: Header) {
+        setValue(header.value.rawValue, forHTTPHeaderField: header.field.rawValue)
     }
 }
 
