@@ -31,6 +31,17 @@ extension URLRequest {
         }
     }
 
+    public mutating func addHeader(_ header: Header) {
+        switch header.value {
+        case let .single(value):
+            addValue(value.rawValue, forHTTPHeaderField: header.field.rawValue)
+        case let .multiple(values):
+            for value in values {
+                addValue(value.rawValue, forHTTPHeaderField: header.field.rawValue)
+            }
+        }
+    }
+
     public mutating func removeHeader(for field: Header.Field) {
         setValue(nil, forHTTPHeaderField: field.rawValue)
     }
