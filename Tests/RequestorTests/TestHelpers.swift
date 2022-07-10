@@ -4,14 +4,10 @@ import XCTest
 
 extension URL {
 
-    static func test() throws -> Self {
-        try XCTUnwrap(URL(string: "https://danieltull.co.uk"))
-    }
+    static let test = URL(string: "https://danieltull.co.uk")!
 }
 
 extension URLRequest {
 
-    static func test() throws -> Self {
-        try URLRequest(url: .test())
-    }
+    static let test = URLRequest(url: .test)
 }

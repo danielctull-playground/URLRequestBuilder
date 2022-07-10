@@ -11,7 +11,7 @@ final class BodyTests: XCTestCase {
     }
 
     func testJSON() throws {
-        var request = try URLRequest.test()
+        var request = URLRequest.test
         try request.setBody(.json(Foo(a: "hello", b: 19)))
         XCTAssertEqual(request.value(forHTTPHeaderField: "Content-Type"), "application/json")
         XCTAssertEqual(request.httpBody, #"{"a":"hello","b":19}"#.data(using: .utf8))
