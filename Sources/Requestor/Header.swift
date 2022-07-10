@@ -4,12 +4,10 @@ import Foundation
 public struct Header {
     public let field: Field
     public let value: Value
-}
 
-extension Header {
-
-    public init(_ field: Field, _ value: Value) {
-        self.init(field: field, value: value)
+    public init(field: Field, value: Value) {
+        self.field = field
+        self.value = value
     }
 }
 

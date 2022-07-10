@@ -9,7 +9,7 @@ final class RequestBuilderTests: XCTestCase {
         let request = URLRequest {
             URL.test
             Body(type: "some", content: Data())
-            Header("key", "value")
+            Header(field: "key", value: "value")
         }
         XCTAssertEqual(request.httpMethod, "GET")
         XCTAssertEqual(request.value(forHTTPHeaderField: "key"), "value")
@@ -22,7 +22,7 @@ final class RequestBuilderTests: XCTestCase {
             Method.post
             URL.test
             Body(type: "some", content: Data())
-            Header("key", "value")
+            Header(field: "key", value: "value")
         }
         XCTAssertEqual(request.httpMethod, "POST")
         XCTAssertEqual(request.value(forHTTPHeaderField: "key"), "value")
