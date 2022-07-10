@@ -2,19 +2,33 @@
 import Foundation
 
 public struct Header {
-    public let field: Field
-    public let value: Value
+    fileprivate let field: Field
+    fileprivate let value: Kind
+}
 
+extension Header {
     public init(field: Field, value: Value) {
-        self.field = field
-        self.value = value
+        self.init(field: field, value: .single(value))
+    }
+
+    public init(field: Field, values: Value...) {
+        self.init(field: field, value: .multiple(values))
     }
 }
 
 extension URLRequest {
 
     public mutating func setHeader(_ header: Header) {
-        setValue(header.value.rawValue, forHTTPHeaderField: header.field.rawValue)
+        switch header.value {
+        case let .single(value):
+            setValue(value.rawValue, forHTTPHeaderField: header.field.rawValue)
+        case let .multiple(values):
+            guard let first = values.first else { return }
+            setValue(first.rawValue, forHTTPHeaderField: header.field.rawValue)
+            for value in values.dropFirst() {
+                addValue(value.rawValue, forHTTPHeaderField: header.field.rawValue)
+            }
+        }
     }
 
     public mutating func removeHeader(for field: Header.Field) {
@@ -40,6 +54,11 @@ extension Header.Field: ExpressibleByStringLiteral {
 // MARK: - Value
 
 extension Header {
+
+    fileprivate enum Kind {
+        case single(Value)
+        case multiple([Value])
+    }
 
     public struct Value {
         let rawValue: String
