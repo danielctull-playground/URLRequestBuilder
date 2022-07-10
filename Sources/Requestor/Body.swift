@@ -13,9 +13,14 @@ public struct Body {
 
 extension URLRequest {
 
-    public mutating func setBody(_ body: Body) {
-        httpBody = body.content
-        setHeader(.contentType(body.type))
+    public mutating func setBody(_ body: Body?) {
+        if let body = body {
+            httpBody = body.content
+            setHeader(.contentType(body.type))
+        } else {
+            httpBody = nil
+            removeHeader(for: .contentType)
+        }
     }
 }
 

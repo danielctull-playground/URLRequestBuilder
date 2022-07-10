@@ -18,6 +18,10 @@ extension URLRequest {
     public mutating func setHeader(_ header: Header) {
         setValue(header.value.rawValue, forHTTPHeaderField: header.field.rawValue)
     }
+
+    public mutating func removeHeader(for field: Header.Field) {
+        setValue(nil, forHTTPHeaderField: field.rawValue)
+    }
 }
 
 // MARK: - Field

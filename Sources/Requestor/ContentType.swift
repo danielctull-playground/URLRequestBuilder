@@ -19,9 +19,13 @@ extension ContentType {
     public static let xml = Self(rawValue: "application/xml")
 }
 
+extension Header.Field {
+    static let contentType = Self(rawValue: "Content-Type")
+}
+
 extension Header {
 
     public static func contentType(_ type: ContentType) -> Self {
-        Self(field: "Content-Type", value: Value(rawValue: type.rawValue))
+        Self(field: .contentType, value: Value(rawValue: type.rawValue))
     }
 }

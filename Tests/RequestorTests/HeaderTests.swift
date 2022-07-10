@@ -10,4 +10,11 @@ final class HeaderTests: XCTestCase {
         request.setHeader(Header("key", "value"))
         XCTAssertEqual(request.value(forHTTPHeaderField: "key"), "value")
     }
+
+    func testRemove() throws {
+        var request = try URLRequest.test()
+        request.setHeader(Header("key", "value"))
+        request.removeHeader(for: "key")
+        XCTAssertNil(request.value(forHTTPHeaderField: "key"))
+    }
 }
