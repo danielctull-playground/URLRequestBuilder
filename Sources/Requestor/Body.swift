@@ -2,8 +2,8 @@
 import Foundation
 
 public struct Body {
-    let type: ContentType
-    let content: Data
+    fileprivate let type: ContentType
+    fileprivate let content: Data
     
     public init(type: ContentType, content: Data) {
         self.type = type

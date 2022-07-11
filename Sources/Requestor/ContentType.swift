@@ -2,7 +2,7 @@
 import Foundation
 
 public struct ContentType {
-    let rawValue: String
+    fileprivate let rawValue: String
 }
 
 extension ContentType: ExpressibleByStringLiteral {

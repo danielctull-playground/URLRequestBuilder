@@ -11,49 +11,52 @@ extension URLRequest {
 @resultBuilder
 public enum RequestBuilder {
 
-    public static func buildBlock(
-        _ url: URL,
-        _ headers: Header...
-    ) -> URLRequest {
-        URLRequest(
-            method: .get,
-            url: url,
-            body: nil,
-            headers: headers)
+    public struct Component {
+        fileprivate let method: Method?
+        fileprivate let url: URL
+        fileprivate var body: Body?
+        fileprivate var headers: [Header]
+
+        init(method: Method? = nil, url: URL, body: Body? = nil, headers: [Header] = []) {
+            self.method = method
+            self.url = url
+            self.body = body
+            self.headers = headers
+        }
     }
 
-    public static func buildBlock(
-        _ url: URL,
-        _ body: Body?,
-        _ headers: Header...
-    ) -> URLRequest {
-        URLRequest(
-            method: .get,
-            url: url,
-            body: body,
-            headers: headers)
+    public static func buildPartialBlock(first: Method) -> Method { first }
+    public static func buildPartialBlock(first: URL) -> Component { Component(url: first) }
+
+    public static func buildPartialBlock(accumulated: Method, next: URL) -> Component { Component(method: accumulated, url: next) }
+
+    public static func buildPartialBlock(accumulated: Component, next: Body) -> Component { accumulated.adding(next) }
+    public static func buildPartialBlock(accumulated: Component, next: Header) -> Component { accumulated.adding(next) }
+
+    public static func buildFinalResult(_ component: Component) -> URLRequest { URLRequest(component: component) }
+}
+
+extension RequestBuilder.Component {
+
+    func adding(_ body: Body) -> Self {
+        var component = self
+        component.body = body
+        return component
     }
 
-    public static func buildBlock(
-        _ method: Method,
-        _ url: URL,
-        _ body: Body?,
-        _ headers: Header...
-    ) -> URLRequest {
-        URLRequest(
-            method: method,
-            url: url,
-            body: body,
-            headers: headers)
+    func adding(_ header: Header) -> Self {
+        var component = self
+        component.headers += [header]
+        return component
     }
 }
 
 extension URLRequest {
 
-    init(method: Method, url: URL, body: Body?, headers: [Header]) {
-        self.init(url: url)
-        setMethod(method)
-        setBody(body)
-        headers.forEach { setHeader($0) }
+    init(component: RequestBuilder.Component) {
+        self.init(url: component.url)
+        if let method = component.method { setMethod(method) }
+        if let body = component.body { setBody(body) }
+        component.headers.forEach { setHeader($0) }
     }
 }
