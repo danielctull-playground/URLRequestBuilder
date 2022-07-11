@@ -1,6 +1,6 @@
 
 import Foundation
-import Requestor
+import URLRequestBuilder
 import XCTest
 
 final class HeaderTests: XCTestCase {

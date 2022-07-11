@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Requestor",
+    name: "URLRequestBuilder",
     platforms: [
         .iOS(.v14),
         .macOS(.v11),
@@ -11,10 +11,10 @@ let package = Package(
         .watchOS(.v7),
     ],
     products: [
-        .library(name: "Requestor", targets: ["Requestor"]),
+        .library(name: "URLRequestBuilder", targets: ["URLRequestBuilder"]),
     ],
     targets: [
-        .target(name: "Requestor"),
-        .testTarget(name: "RequestorTests", dependencies: ["Requestor"]),
+        .target(name: "URLRequestBuilder"),
+        .testTarget(name: "URLRequestBuilderTests", dependencies: ["URLRequestBuilder"]),
     ]
 )
